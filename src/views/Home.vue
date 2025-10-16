@@ -61,14 +61,14 @@
         <div class="categories-grid">
           <a href="/catalogue?category=jupe" class="category-card">
             <div class="category-image">
-              <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=300&h=300&fit=crop" alt="Jupe" />
+              <img src="https://medias.zaitrako.mg/category/jupe.png" alt="Jupe" />
             </div>
             <h3>Jupe</h3>
           </a>
           
           <a href="/catalogue?category=pantalon" class="category-card">
             <div class="category-image">
-              <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&h=300&fit=crop" alt="Pantalon" />
+              <img src="https://medias.zaitrako.mg/category/pantalon.png" alt="Pantalon" />
             </div>
             <h3>Pantalon</h3>
           </a>
@@ -275,7 +275,7 @@ const handleNewsletterSubmit = () => {
 }
 
 .category-image {
-  background-color: var(--light-pink);
+  background-color: #F0DEDE;
   padding: 40px;
   height: 350px;
   display: flex;

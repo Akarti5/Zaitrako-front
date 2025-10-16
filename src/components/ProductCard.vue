@@ -62,7 +62,7 @@ const originalPrice = computed(() => {
 
 .product-image {
   position: relative;
-  background-color: var(--light-pink);
+  background-color: #F0DEDE;
   padding: 20px;
   height: 300px;
   display: flex;
