@@ -1,0 +1,496 @@
+[ {
+    "id": 3,
+    "name": "Jupe cloche",
+    "slug": "jupe-cloche",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "Tour de taille (en cm)",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1713717458441,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 4,
+    "name": "Jupe evasée",
+    "slug": "jupe-evasee",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpe.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1717341851173,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 8,
+    "name": "Jupe 8 panneaux",
+    "slug": "jupe-8-panneaux",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1717763782257,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 5,
+    "name": "Jupe fuseau",
+    "slug": "jupe-fuseau",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1717761234462,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 6,
+    "name": "Jupe plissée",
+    "slug": "jupe-plissee",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 2,
+    "name": "Jupe droite",
+    "slug": "jupe-droite",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1713717059539,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 7,
+    "name": "Jupe 6 panneaux",
+    "slug": "jupe-6-panneaux",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 70"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 90"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 21"
+    }, {
+        "key": "longueurJupe",
+        "type": "double",
+        "label": "Longueur jupe (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 65"
+    } ],
+    "price": 1000,
+    "promo": true,
+    "status": "public",
+    "image_url": "https://medias.zaitrako.mg/jpd.jpeg",
+    "video_url": "https://medias.zaitrako.mg/JUPE-DROITE.mp4",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "jupe",
+    "price_no_promo": 2000,
+    "reduction_average": 95
+}, {
+    "id": 8,
+    "name": "Pantalon sans plis",
+    "slug": "pantalon-sans-pli",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 83"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 96"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Hauteur fond (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 22"
+    }, {
+        "key": "hauteurFond",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 15"
+    }, {
+        "key": "longueurPantalon",
+        "type": "double",
+        "label": "Longueur pantalon (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 97"
+    }, {
+        "key": "tourDePatte",
+        "type": "double",
+        "label": "Tour de patte (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 34"
+    } ],
+    "price": 3000,
+    "promo": true,
+    "status": "public",
+    "image_url": "",
+    "video_url": "",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "pantalon",
+    "price_no_promo": 4000,
+    "reduction_average": 25
+}, {
+    "id": 9,
+    "name": "Pantalon avec plis",
+    "slug": "pantalon-avec-pli",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 83"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 96"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Hauteur fond (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 22"
+    }, {
+        "key": "hauteurFond",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 15"
+    }, {
+        "key": "longueurPantalon",
+        "type": "double",
+        "label": "Longueur pantalon (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 97"
+    }, {
+        "key": "tourDePatte",
+        "type": "double",
+        "label": "Tour de patte (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 34"
+    }, {
+        "key": "nbPlis",
+        "type": "double",
+        "label": "Nombre de plis (1 ou 2)",
+        "tooltips": "",
+        "placeholder": "ex : 1"
+    } ],
+    "price": 3000,
+    "promo": true,
+    "status": "public",
+    "image_url": "",
+    "video_url": "",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "pantalon",
+    "price_no_promo": 4000,
+    "reduction_average": 25
+}, {
+    "id": 10,
+    "name": "Pantalon jeans",
+    "slug": "pantalon-jeans",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 83"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 96"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Hauteur fond (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 22"
+    }, {
+        "key": "hauteurFond",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 15"
+    }, {
+        "key": "longueurPantalon",
+        "type": "double",
+        "label": "Longueur pantalon (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 97"
+    }, {
+        "key": "tourDePatte",
+        "type": "double",
+        "label": "Tour de patte (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 34"
+    }, {
+        "key": "hauteurPoche",
+        "type": "double",
+        "label": "Hauteur poche (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 6"
+    }, {
+        "key": "longueurPoche",
+        "type": "double",
+        "label": "Longueur poche (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 11"
+    } ],
+    "price": 3000,
+    "promo": true,
+    "status": "public",
+    "image_url": "",
+    "video_url": "",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "pantalon",
+    "price_no_promo": 4000,
+    "reduction_average": 25
+}, {
+    "id": 11,
+    "name": "Pantalon patte carré",
+    "slug": "pantalon-patte-carre",
+    "forms": [ {
+        "key": "tourDeTaille",
+        "type": "double",
+        "label": "Tour de taille (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 83"
+    }, {
+        "key": "tourDeBassin",
+        "type": "double",
+        "label": "Tour de bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 96"
+    }, {
+        "key": "longueurBassin",
+        "type": "double",
+        "label": "Hauteur fond (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 22"
+    }, {
+        "key": "hauteurFond",
+        "type": "double",
+        "label": "Longueur bassin (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 15"
+    }, {
+        "key": "longueurPantalon",
+        "type": "double",
+        "label": "Longueur pantalon (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 97"
+    }, {
+        "key": "tourDePatte",
+        "type": "double",
+        "label": "Tour de patte (en cm)",
+        "tooltips": "",
+        "placeholder": "ex : 34"
+    } ],
+    "price": 3000,
+    "promo": true,
+    "status": "public",
+    "image_url": "",
+    "video_url": "",
+    "created_at": 1717763748697,
+    "category_id": 1,
+    "description": "",
+    "category_name": "pantalon",
+    "price_no_promo": 4000,
+    "reduction_average": 25
+}
+]
