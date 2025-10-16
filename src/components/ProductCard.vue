@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card">
+  <div class="product-card" @click="goToDetail">
     <div class="product-image">
       <img 
         :src="product.picturepath || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22300%22%3E%3Crect width=%22250%22 height=%22300%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2218%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E'" 
@@ -25,6 +25,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   product: {
@@ -32,6 +33,20 @@ const props = defineProps({
     required: true
   }
 })
+
+const router = useRouter()
+
+const goToDetail = () => {
+  const slug = props.product.slug
+  if (slug) {
+    router.push({ name: 'ProductDetail', params: { slug } })
+    return
+  }
+  const id = props.product._id || props.product.id
+  if (id) {
+    router.push({ name: 'ProductDetail', params: { slug: String(id) } })
+  }
+}
 
 const rating = computed(() => 4.5)
 const discount = computed(() => {

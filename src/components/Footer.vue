@@ -30,7 +30,12 @@
           </div>
           <div class="footer-column footer-column-last">
             <div class="mvola-badge">
-              MVOLA
+              <img 
+  src="https://www.madagascar-internet.mg/wp-content/uploads/2022/03/MVOLA-300x140.png" 
+  alt="Mvola mobile money" 
+  style="width: 33%; height: auto;"
+>
+
             </div>
           </div>
         </div>
@@ -213,7 +218,7 @@
 
 /* Mvola Badge */
 .mvola-badge {
-  background-color: #facc15;
+  /* background-color: #facc15; */
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 14px;
