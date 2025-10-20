@@ -11,22 +11,22 @@
             
             <div class="stats">
               <div class="stat-item">
-                <h3>10+</h3>
+                <h3>{{ animatedStats.models }}+</h3>
                 <p>Modèles de patron</p>
               </div>
               <div class="stat-item">
-                <h3>200+</h3>
+                <h3>{{ animatedStats.users }}+</h3>
                 <p>Utilisateurs</p>
               </div>
               <div class="stat-item">
-                <h3>3,000+</h3>
+                <h3>{{ animatedStats.patterns.toLocaleString() }}+</h3>
                 <p>Patron générés</p>
               </div>
             </div>
           </div>
           
           <div class="hero-image">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Capture%20d%E2%80%99%C3%A9cran%20%2839%29-G2oqjGg8IVbvsZNN9TV0w1tBDM7FCk.png" alt="Sewing patterns and fabrics" />
+            <img src="../assets/main.jpg" alt="Sewing patterns and fabrics" />
           </div>
         </div>
       </div>
@@ -80,30 +80,34 @@
     <section class="testimonials-section">
       <div class="container">
         <h2 class="section-title">CE QUE DISENT NOS CLIENTS</h2>
-        
-        <div class="testimonials-grid">
-          <div class="testimonial-card">
-            <div class="stars">
-              <span v-for="i in 5" :key="i" class="star">★</span>
+
+        <div class="testimonials-marquee">
+          <div class="marquee-track" :style="{ animationDuration: marqueeDuration }">
+            <div 
+              v-for="(t, idx) in testimonials" 
+              :key="'a'+idx" 
+              class="testimonial-card"
+            >
+              <div class="stars">
+                <span v-for="i in 5" :key="i" class="star">★</span>
+              </div>
+              <h4>{{ t.author }} <span class="verified">✓</span></h4>
+              <p>"{{ t.text }}"</p>
             </div>
-            <h4>Eliah R. <span class="verified">✓</span></h4>
-            <p>"C'est une cinquantaine, j'ai su concevoir ma jupe"</p>
-          </div>
-          
-          <div class="testimonial-card">
-            <div class="stars">
-              <span v-for="i in 5" :key="i" class="star">★</span>
+
+            <!-- Duplicate for seamless loop -->
+            <div 
+              v-for="(t, idx) in testimonials" 
+              :key="'b'+idx" 
+              class="testimonial-card" 
+              aria-hidden="true"
+            >
+              <div class="stars">
+                <span v-for="i in 5" :key="i" class="star">★</span>
+              </div>
+              <h4>{{ t.author }} <span class="verified">✓</span></h4>
+              <p>"{{ t.text }}"</p>
             </div>
-            <h4>Holy R. <span class="verified">✓</span></h4>
-            <p>"Tena tsara ilay hevitra sady tsy mandany fotoana no tsara ny vokatra... Mankasitraka eeee!!!!"</p>
-          </div>
-          
-          <div class="testimonial-card">
-            <div class="stars">
-              <span v-for="i in 5" :key="i" class="star">★</span>
-            </div>
-            <h4>Marie A. <span class="verified">✓</span></h4>
-            <p>"J'ai gagné 60% de temps de travail avec 5% d'investissement, vous m'avez sauvé la vie"</p>
           </div>
         </div>
       </div>
@@ -131,7 +135,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import ProductCard from '../components/ProductCard.vue'
 import { productService } from '../services/api'
 
@@ -141,6 +145,48 @@ const error = ref(null)
 const email = ref('')
 
 const displayedProducts = ref([])
+
+// Animated stats
+const animatedStats = ref({
+  models: 0,
+  users: 0,
+  patterns: 0
+})
+
+const targetStats = {
+  models: 10,
+  users: 200,
+  patterns: 3000
+}
+
+// Testimonials data and marquee settings
+const testimonials = ref([
+  { author: 'Eliah R.', text: "C'est une cinquantaine, j'ai su concevoir ma jupe" },
+  { author: 'Holy R.', text: 'Tena tsara ilay hevitra sady tsy mandany fotoana no tsara ny vokatra... Mankasitraka eeee!!!!' },
+  { author: 'Marie A.', text: "J'ai gagné 60% de temps de travail avec 5% d'investissement, vous m'avez sauvé la vie" },
+  { author: 'Sitraka M.', text: 'Interface simple, résultat parfait. Tena ilaina ho an’ny mpanjaitra.' },
+  { author: 'Fanja T.', text: 'Le patron généré tombe juste, du premier coup. Bravo !' },
+  { author: 'Arisoa K.', text: 'Gros gain de temps à l’atelier, je recommande sans hésiter.' },
+  { author: 'Eddy F.', text: 'Wow tsara be ilay idee , keep it up 🔥🔥🔥.' },
+])
+
+// Adjust marquee speed by changing the duration (longer = slower)
+const marqueeDuration = computed(() => '35s')
+
+// Animation function
+const animateNumber = (start, end, duration, callback) => {
+  const startTime = performance.now()
+  const animate = (currentTime) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const current = Math.floor(start + (end - start) * progress)
+    callback(current)
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+  requestAnimationFrame(animate)
+}
 
 onMounted(async () => {
   try {
@@ -154,6 +200,19 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+  
+  // Start number animations after a short delay
+  setTimeout(() => {
+    animateNumber(0, targetStats.models, 2000, (value) => {
+      animatedStats.value.models = value
+    })
+    animateNumber(0, targetStats.users, 2500, (value) => {
+      animatedStats.value.users = value
+    })
+    animateNumber(0, targetStats.patterns, 3000, (value) => {
+      animatedStats.value.patterns = value
+    })
+  }, 500)
 })
 
 const handleNewsletterSubmit = () => {
@@ -163,9 +222,13 @@ const handleNewsletterSubmit = () => {
 </script>
 
 <style scoped>
+
+.section-title{
+   font-family: 'Integral CF', sans-serif;
+}
 .hero {
-  background: linear-gradient(135deg, #2B4C8C 0%, #1e3563 100%);
-  color: white;
+  background: linear-gradient(135deg, #f4e4bc 0%, #e6d3a3 100%);
+  color: var(--text-dark);
   padding: 80px 0;
 }
 
@@ -177,6 +240,7 @@ const handleNewsletterSubmit = () => {
 }
 
 .hero-text h1 {
+  font-family: 'Integral CF', sans-serif;
   font-size: 56px;
   font-weight: 900;
   line-height: 1.1;
@@ -184,7 +248,9 @@ const handleNewsletterSubmit = () => {
   letter-spacing: -1px;
 }
 
+
 .hero-text p {
+  font-family: 'Satoshi' , sans-serif;
   font-size: 18px;
   line-height: 1.6;
   margin-bottom: 32px;
@@ -198,6 +264,7 @@ const handleNewsletterSubmit = () => {
 }
 
 .stat-item h3 {
+  font-family: 'Satoshi';
   font-size: 48px;
   font-weight: 900;
   color: var(--accent-orange);
@@ -223,6 +290,8 @@ const handleNewsletterSubmit = () => {
   padding: 80px 0;
 }
 
+.products-section 
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -242,10 +311,20 @@ const handleNewsletterSubmit = () => {
 }
 
 .view-more-link {
-  color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: #fff;
   font-weight: 600;
-  text-decoration: underline;
-  font-size: 18px;
+  font-size: 16px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.view-more-link:hover {
+  background: #0a58ca;
+  transform: scale(1.05);
 }
 
 .categories-section {
@@ -301,10 +380,18 @@ const handleNewsletterSubmit = () => {
   padding: 80px 0;
 }
 
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
+.testimonials-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation-name: marqueeLeft;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .testimonial-card {
@@ -312,6 +399,7 @@ const handleNewsletterSubmit = () => {
   padding: 32px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  min-width: 320px;
 }
 
 .testimonial-card .stars {
@@ -354,8 +442,8 @@ const handleNewsletterSubmit = () => {
 
 .newsletter-section {
   padding: 80px 0;
-  background: linear-gradient(135deg, #2B4C8C 0%, #1e3563 100%);
-  color: white;
+  background: linear-gradient(135deg, #f4e4bc 0%, #e6d3a3 100%);
+  color: var(--text-dark);
 }
 
 .newsletter-content {
@@ -422,9 +510,6 @@ const handleNewsletterSubmit = () => {
     gap: 32px;
   }
 
-  .testimonials-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 640px) {
@@ -461,5 +546,10 @@ const handleNewsletterSubmit = () => {
   .newsletter-form button {
     width: 100%;
   }
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 </style>

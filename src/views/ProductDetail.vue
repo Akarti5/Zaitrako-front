@@ -50,7 +50,19 @@
               </div>
 
               <div class="submit-row">
-                <button class="submit-btn" type="submit">Suivant ➔</button>
+                <button class="submit-btn" type="submit" :disabled="isSubmitting">
+                  {{ isSubmitting ? 'Génération en cours...' : 'Générer le Patron ➔' }}
+                </button>
+              </div>
+
+              <!-- Added success message and download link -->
+              <div v-if="pdfUrl" class="success-message">
+                <p><i class="fa-solid fa-check"></i> Patron généré avec succès !</p>
+                <a :href="pdfUrl" download class="download-btn"><i class="fa-solid fa-download"></i> Télécharger le PDF</a>
+              </div>
+
+              <div v-if="submitError" class="error-message">
+                {{ submitError }}
               </div>
             </form>
           </div>
@@ -77,11 +89,15 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { productService } from '../services/api'
+import axios from 'axios'
 
 const route = useRoute()
 const product = ref({})
 const loading = ref(true)
 const error = ref(null)
+const isSubmitting = ref(false)
+const pdfUrl = ref(null)
+const submitError = ref(null)
 
 const formValues = ref({
   fullName: '',
@@ -133,13 +149,68 @@ onMounted(async () => {
   }
 })
 
-const handleSubmit = () => {
-  const missingDynamic = dynamicFields.value.some((_, idx) => formValues.value.dynamic[idx] === '' || formValues.value.dynamic[idx] === null || Number.isNaN(formValues.value.dynamic[idx]))
+const handleSubmit = async () => {
+  // Validate form
+  const missingDynamic = dynamicFields.value.some((_, idx) => 
+    formValues.value.dynamic[idx] === '' || 
+    formValues.value.dynamic[idx] === null || 
+    Number.isNaN(formValues.value.dynamic[idx])
+  )
+  
   if (!formValues.value.fullName || missingDynamic) {
-    alert('Veuillez remplir tous les champs avec des valeurs valides.')
+    submitError.value = 'Veuillez remplir tous les champs avec des valeurs valides.'
     return
   }
-  alert('Mesures soumises avec succès !')
+
+  // Reset states
+  isSubmitting.value = true
+  submitError.value = null
+  pdfUrl.value = null
+
+  try {
+    // Build the request payload based on product type
+    const productType = product.value.slug || product.value.type
+    
+    // Map dynamic fields to their proper names
+    const measurementData = {
+      name: formValues.value.fullName
+    }
+
+    // Map the dynamic fields based on the field names
+    dynamicFields.value.forEach((field, idx) => {
+      const fieldName = field.name || field.label
+      measurementData[fieldName] = formValues.value.dynamic[idx]
+    })
+
+    console.log('[v0] Submitting pattern generation request:', {
+      type: productType,
+      value: measurementData
+    })
+
+    // Call the backend API
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const response = await axios.post(`${API_BASE_URL}/api/catalogue`, {
+      type: productType,
+      value: measurementData
+    })
+
+    console.log('[v0] Pattern generation response:', response.data)
+
+    // Set the PDF URL from the response
+    if (response.data.url) {
+      pdfUrl.value = `${API_BASE_URL}${response.data.url}`
+      console.log('[v0] PDF URL:', pdfUrl.value)
+    } else {
+      throw new Error('URL du PDF non reçue du serveur')
+    }
+
+  } catch (err) {
+    console.error('[v0] Error generating pattern:', err)
+    submitError.value = err.response?.data?.message || 
+                        'Erreur lors de la génération du patron. Veuillez réessayer.'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -254,7 +325,57 @@ const handleSubmit = () => {
   cursor: pointer;
   transition: transform .2s ease, box-shadow .2s ease;
 }
-.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35); }
+.submit-btn:hover:not(:disabled) { 
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35); 
+}
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Added styles for success and error messages */
+.success-message {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #d1fae5;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.success-message p {
+  color: #065f46;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.download-btn {
+  display: inline-block;
+  background: #10b981;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  color: #991b1b;
+  text-align: center;
+  font-weight: 600;
+}
 
 .tutorial-section { margin-top: 60px; text-align: center; }
 .tutorial-title { font-size: 30px; color: #1e3a8a; font-weight: 900; margin-bottom: 16px; }
@@ -269,5 +390,3 @@ const handleSubmit = () => {
   .detail-grid { grid-template-columns: 1fr; }
 }
 </style>
-
-

@@ -6,10 +6,7 @@
         <div class="footer-grid">
           <div class="footer-column">
             <div class="logo-container">
-              <div class="logo-icon">
-                <span class="logo-text">Z</span>
-              </div>
-              <span class="logo-name">Zaitrako<span class="logo-extension">.mg</span></span>
+              <span class="logo-name"><img src="https://cdn.weweb.io/designs/3e4da470-e43c-4ad3-aa0d-6ea616b8d623/sections/Logo_Horizontal_2.png?_wwcv=1720515811577" alt="" srcset=""></span>
             </div>
             <p class="footer-description">
               Zaitrako.mg, votre générateur de patron de couture automatique en quelques clics.
@@ -18,8 +15,8 @@
           <div class="footer-column">
             <h4 class="footer-heading">ENTREPRISE</h4>
             <ul class="footer-links">
-              <li><a href="#" class="footer-link">À Propos</a></li>
-              <li><a href="#" class="footer-link">Contact</a></li>
+              <li><router-link to="/a-propos" class="footer-link">À Propos</router-link></li>
+              <li><router-link to="/contact" class="footer-link">Contact</router-link></li>
             </ul>
           </div>
           <div class="footer-column">
@@ -40,13 +37,14 @@
           </div>
         </div>
         <div class="footer-bottom">
-          Zaitrako.mg © 2022-2024, All Rights Reserve
+          Zaitrako.mg © 2022-2025, All Rights Reserve
         </div>
       </div>
     </footer>
 </template>
 
 <style scoped>
+
 /* Newsletter Section */
 .newsletter-section {
   background: linear-gradient(to right, #1e40af, #2563eb);
@@ -158,7 +156,7 @@
 .logo-icon {
   width: 32px;
   height: 32px;
-  background-color: #2563eb;
+  background-color: var(--primary-blue);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -175,6 +173,14 @@
   font-size: 20px;
   font-weight: bold;
   color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.logo-name img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-extension {
@@ -213,7 +219,7 @@
 }
 
 .footer-link:hover {
-  color: #2563eb;
+  color: var(--primary-blue);
 }
 
 /* Mvola Badge */

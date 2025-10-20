@@ -50,8 +50,8 @@ const goToDetail = () => {
 
 const rating = computed(() => 4.5)
 const discount = computed(() => {
-  if (props.product.price < 2000) return 50
-  if (props.product.price < 4000) return 25
+  if (props.product.price < 6000) return 50
+  // if (props.product.price < 5001) return 25
   return null
 })
 

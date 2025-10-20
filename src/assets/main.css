@@ -1,7 +1,7 @@
 :root {
-  --primary-blue: #2b4c8c;
-  --primary-dark-blue: #1e3563;
-  --accent-orange: #ff9500;
+  --primary-blue: #f4e4bc;
+  --primary-dark-blue: #e6d3a3;
+  --accent-orange: #d4af37;
   --light-pink: #f5e6e8;
   --text-dark: #1a1a1a;
   --text-gray: #666;
@@ -33,7 +33,7 @@ body {
 
 .btn-primary {
   background-color: var(--primary-blue);
-  color: white;
+  color: var(--text-dark);
 }
 
 .btn-primary:hover {
@@ -56,3 +56,17 @@ body {
     margin-bottom: 32px;
   }
 }
+
+@font-face {
+  font-family: 'Integral CF';
+  src: url('./Integral-CF/Demo_Fonts/Fontspring-DEMO-integralcf-bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('./Satoshi_Complete/Satoshi_Complete/Fonts/OTF/Satoshi-Medium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

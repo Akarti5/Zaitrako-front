@@ -10,8 +10,7 @@
       <div class="container">
         <div class="nav-content">
           <router-link to="/" class="logo">
-            <span class="logo-icon">Z</span>
-            <span class="logo-text">Zaitrako<span class="logo-suffix">.mg</span></span>
+            <span class="logo-text"><img src="https://cdn.weweb.io/designs/3e4da470-e43c-4ad3-aa0d-6ea616b8d623/sections/Logo_Horizontal_2.png?_wwcv=1720515811577" alt="" srcset=""></span>
           </router-link>
 
           <button class="mobile-menu-btn" @click="toggleMobileMenu">
@@ -86,25 +85,29 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: white;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .top-banner {
   background-color: var(--primary-blue);
-  color: white;
+  color: var(--text-dark);
   padding: 12px 0;
   text-align: center;
   font-size: 14px;
 }
 
 .top-banner a {
-  color: white;
+  color: var(--text-dark);
   text-decoration: underline;
   font-weight: 600;
 }
 
 .navbar {
-  background: white;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -124,11 +127,12 @@ header {
   font-size: 24px;
   font-weight: 700;
   color: var(--text-dark);
+  height: 40px;
 }
 
 .logo-icon {
   background-color: var(--primary-blue);
-  color: white;
+  color: var(--text-dark);
   width: 36px;
   height: 36px;
   display: flex;
@@ -136,6 +140,18 @@ header {
   justify-content: center;
   border-radius: 6px;
   font-weight: 900;
+}
+
+.logo-text {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo-text img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-suffix {
@@ -289,7 +305,9 @@ header {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

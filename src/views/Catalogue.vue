@@ -106,6 +106,7 @@ onMounted(async () => {
 }
 
 .page-title {
+  font-family: 'Integral CF', sans-serif;
   font-size: 48px;
   font-weight: 900;
   text-align: center;
