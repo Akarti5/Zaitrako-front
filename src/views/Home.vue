@@ -1,13 +1,15 @@
 <template>
   <div class="home">
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" ref="heroSection">
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
-            <h1>GENERER VOTRE PATRON DE COUTURE SUR MESURE</h1>
+            <h1 ref="heroTitle">
+              GENERER VOTRE PATRON DE COUTURE SUR MESURE
+            </h1>
             <p>Zaitrako.mg est un générateur de patron automatique et sur mesure, en quelques clics. Essayez-le et commencez à optimiser votre style de couture dès maintenant !</p>
-            <button class="btn btn-primary">Essayez-le</button>
+            <router-link to="/catalogue"><button class="btn btn-primary">Essayez-le</button></router-link>
             
             <div class="stats">
               <div class="stat-item">
@@ -25,8 +27,52 @@
             </div>
           </div>
           
-          <div class="hero-image">
-            <img src="../assets/main.jpg" alt="Sewing patterns and fabrics" />
+          <div class="hero-image-wrapper">
+            <div class="hero-image" ref="heroImageContainer">
+              <img 
+                ref="heroImage"
+                src="../assets/16ac370e9abd2c4def942ad73b4925ea.png" 
+                alt="Sewing patterns and fabrics"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Why Choose Section -->
+    <section class="why-choose-section" ref="whySection">
+      <div class="container">
+        <div class="why-content">
+          <div class="why-image-placeholder" ref="whyImageTarget">
+            <!-- Image will travel here -->
+          </div>
+          
+          <div class="why-text">
+            <h2 ref="whyTitle">
+              Pourquoi choisir ZAITRAKO?
+            </h2>
+            
+            <div class="features-horizontal">
+              <div class="feature-card" ref="featureCard1">
+                <div class="feature-icon"><i class="fa-solid fa-handshake"></i></div>
+                <h3>Simple</h3>
+                <p>Interface intuitive et facile à utiliser</p>
+              </div>
+              
+              <div class="feature-card" ref="featureCard2">
+                <div class="feature-icon"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Rapide</h3>
+                <p>Générez vos patrons en quelques clics</p>
+              </div>
+              
+              <div class="feature-card" ref="featureCard3">
+                <div class="feature-icon"><i class="fa-solid fa-bullseye"></i>
+</div>
+                <h3>Précis</h3>
+                <p>Mesures exactes pour un résultat parfait</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -48,7 +94,7 @@
         </div>
         
         <div class="view-more">
-          <router-link to="/catalogue" class="view-more-link">Voir catalogue</router-link>
+          <router-link to="/catalogue" class="btn btn-primary">Voir catalogue</router-link>
         </div>
       </div>
     </section>
@@ -95,7 +141,6 @@
               <p>"{{ t.text }}"</p>
             </div>
 
-            <!-- Duplicate for seamless loop -->
             <div 
               v-for="(t, idx) in testimonials" 
               :key="'b'+idx" 
@@ -135,7 +180,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import ProductCard from '../components/ProductCard.vue'
 import { productService } from '../services/api'
 
@@ -143,8 +188,24 @@ const products = ref([])
 const loading = ref(true)
 const error = ref(null)
 const email = ref('')
-
 const displayedProducts = ref([])
+
+// Refs for scroll animations
+const heroSection = ref(null)
+const whySection = ref(null)
+const heroImage = ref(null)
+const heroImageContainer = ref(null)
+const whyImageTarget = ref(null)
+const heroTitle = ref(null)
+const whyTitle = ref(null)
+const featureCard1 = ref(null)
+const featureCard2 = ref(null)
+const featureCard3 = ref(null)
+
+// Animation state
+let gsapLoaded = false
+let gsap = null
+let ScrollTrigger = null
 
 // Animated stats
 const animatedStats = ref({
@@ -170,10 +231,9 @@ const testimonials = ref([
   { author: 'Eddy F.', text: 'Wow tsara be ilay idee , keep it up 🔥🔥🔥.' },
 ])
 
-// Adjust marquee speed by changing the duration (longer = slower)
 const marqueeDuration = computed(() => '35s')
 
-// Animation function
+// Animation function for stats
 const animateNumber = (start, end, duration, callback) => {
   const startTime = performance.now()
   const animate = (currentTime) => {
@@ -188,11 +248,166 @@ const animateNumber = (start, end, duration, callback) => {
   requestAnimationFrame(animate)
 }
 
+// Load GSAP dynamically
+const loadGSAP = async () => {
+  if (gsapLoaded) return
+  
+  try {
+    // Load GSAP from CDN
+    await new Promise((resolve, reject) => {
+      const script1 = document.createElement('script')
+      script1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'
+      script1.onload = resolve
+      script1.onerror = reject
+      document.head.appendChild(script1)
+    })
+    
+    await new Promise((resolve, reject) => {
+      const script2 = document.createElement('script')
+      script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'
+      script2.onload = resolve
+      script2.onerror = reject
+      document.head.appendChild(script2)
+    })
+    
+    gsap = window.gsap
+    ScrollTrigger = window.ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger)
+    gsapLoaded = true
+  } catch (error) {
+    console.error('Failed to load GSAP:', error)
+  }
+}
+
+// Setup GSAP animations
+const setupAnimations = () => {
+  if (!gsap || !ScrollTrigger) return
+  
+  // Hero title slide out
+  gsap.to(heroTitle.value, {
+    x: '-120%',
+    opacity: 0,
+    scrollTrigger: {
+      trigger: heroSection.value,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1.5,
+    }
+  })
+  
+  // Why title slide in
+  gsap.fromTo(whyTitle.value,
+    {
+      x: '120%',
+      opacity: 0
+    },
+    {
+      x: 0,
+      opacity: 1,
+      scrollTrigger: {
+        trigger: whySection.value,
+        start: 'top 80%',
+        end: 'top 30%',
+        scrub: 1.5,
+      }
+    }
+  )
+  
+  // Image traveling animation
+  if (heroImage.value && whyImageTarget.value) {
+    // Clone the image and append to why section when animation completes
+    const imageClone = heroImage.value.cloneNode(true)
+    imageClone.style.width = '100%'
+    imageClone.style.position = 'relative'
+    imageClone.style.left = 'auto'
+    imageClone.style.top = 'auto'
+    imageClone.style.zIndex = 'auto'
+    imageClone.style.opacity = '0'
+    whyImageTarget.value.appendChild(imageClone)
+    
+    gsap.to(heroImage.value, {
+      scrollTrigger: {
+        trigger: heroSection.value,
+        start: 'top top',
+        end: () => `+=${whySection.value.offsetTop - heroSection.value.offsetTop}`,
+        scrub: 2,
+        onUpdate: (self) => {
+          const progress = self.progress
+          
+          if (progress > 0 && progress < 0.95) {
+            const heroRect = heroImageContainer.value.getBoundingClientRect()
+            const whyRect = whyImageTarget.value.getBoundingClientRect()
+            
+            const startX = heroRect.left
+            const startY = heroRect.top + window.scrollY
+            const endX = whyRect.left
+            const endY = whyRect.top + window.scrollY
+            
+            const currentX = startX + (endX - startX) * progress
+            const currentY = startY + (endY - startY) * progress
+            
+            gsap.set(heroImage.value, {
+              position: 'fixed',
+              left: currentX + 'px',
+              top: (currentY - window.scrollY) + 'px',
+              zIndex: 1000,
+              width: heroRect.width + 'px',
+              opacity: 1,
+            })
+            
+            gsap.set(imageClone, {
+              opacity: 0
+            })
+          } else if (progress >= 0.95) {
+            // Hide traveling image, show clone
+            gsap.set(heroImage.value, {
+              opacity: 0,
+            })
+            gsap.set(imageClone, {
+              opacity: 1
+            })
+          } else {
+            gsap.set(heroImage.value, {
+              position: 'relative',
+              left: 'auto',
+              top: 'auto',
+              zIndex: 'auto',
+              width: '100%',
+              opacity: 1,
+            })
+            gsap.set(imageClone, {
+              opacity: 0
+            })
+          }
+        }
+      }
+    })
+  }
+  
+  // Feature cards animation
+  gsap.fromTo([featureCard1.value, featureCard2.value, featureCard3.value],
+    {
+      y: 60,
+      opacity: 0
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: whySection.value,
+        start: 'top 60%',
+      }
+    }
+  )
+}
+
 onMounted(async () => {
   try {
     const data = await productService.getAllProducts()
     products.value = data
-    // Display first 8 products
     displayedProducts.value = data.slice(0, 8)
   } catch (err) {
     error.value = 'Erreur lors du chargement des produits'
@@ -201,7 +416,7 @@ onMounted(async () => {
     loading.value = false
   }
   
-  // Start number animations after a short delay
+  // Start number animations
   setTimeout(() => {
     animateNumber(0, targetStats.models, 2000, (value) => {
       animatedStats.value.models = value
@@ -213,6 +428,20 @@ onMounted(async () => {
       animatedStats.value.patterns = value
     })
   }, 500)
+  
+  // Load GSAP and setup animations
+  await loadGSAP()
+  
+  // Wait for next tick to ensure DOM is ready
+  setTimeout(() => {
+    setupAnimations()
+  }, 100)
+})
+
+onUnmounted(() => {
+  if (ScrollTrigger) {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+  }
 })
 
 const handleNewsletterSubmit = () => {
@@ -222,14 +451,18 @@ const handleNewsletterSubmit = () => {
 </script>
 
 <style scoped>
-
-.section-title{
-   font-family: 'Integral CF', sans-serif;
+.section-title {
+  font-family: 'Integral CF', sans-serif;
 }
+
 .hero {
-  background: linear-gradient(135deg, #f4e4bc 0%, #e6d3a3 100%);
+  background: linear-gradient(135deg, #FFDEAD 0%, #FFE4B5 100%);
   color: var(--text-dark);
   padding: 80px 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .hero-content {
@@ -237,6 +470,7 @@ const handleNewsletterSubmit = () => {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
+  width: 100%;
 }
 
 .hero-text h1 {
@@ -246,11 +480,11 @@ const handleNewsletterSubmit = () => {
   line-height: 1.1;
   margin-bottom: 24px;
   letter-spacing: -1px;
+  will-change: transform;
 }
 
-
 .hero-text p {
-  font-family: 'Satoshi' , sans-serif;
+  font-family: 'Satoshi', sans-serif;
   font-size: 18px;
   line-height: 1.6;
   margin-bottom: 32px;
@@ -276,21 +510,116 @@ const handleNewsletterSubmit = () => {
   opacity: 0.9;
 }
 
+.hero-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .hero-image {
   position: relative;
+  width: 100%;
+  max-width: 500px;
 }
 
 .hero-image img {
   width: 100%;
   height: auto;
   border-radius: 12px;
+  display: block;
+  will-change: transform;
 }
 
+/* Why Choose Section */
+.why-choose-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #FFDEAD 0%, #FFE4B5 100%);
+  min-height: 110vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.why-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+
+.why-image-placeholder {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.why-text {
+  width: 100%;
+}
+
+.why-text h2 {
+  font-family: 'Integral CF', sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 48px;
+  color: var(--text-dark);
+  will-change: transform;
+}
+
+.features-horizontal {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.feature-card {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.feature-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Products Section */
 .products-section {
   padding: 80px 0;
 }
-
-.products-section 
 
 .products-grid {
   display: grid;
@@ -327,9 +656,10 @@ const handleNewsletterSubmit = () => {
   transform: scale(1.05);
 }
 
+/* Categories Section */
 .categories-section {
   padding: 80px 0;
-  background-color: #f8f8f8;
+  background-color: #fffefc;
 }
 
 .categories-grid {
@@ -376,6 +706,7 @@ const handleNewsletterSubmit = () => {
   text-align: center;
 }
 
+/* Testimonials Section */
 .testimonials-section {
   padding: 80px 0;
 }
@@ -440,6 +771,7 @@ const handleNewsletterSubmit = () => {
   font-style: italic;
 }
 
+/* Newsletter Section */
 .newsletter-section {
   padding: 80px 0;
   background: linear-gradient(135deg, #f4e4bc 0%, #e6d3a3 100%);
@@ -483,14 +815,22 @@ const handleNewsletterSubmit = () => {
   outline: none;
 }
 
+/* Responsive Design */
 @media (max-width: 968px) {
-  .hero-content {
+  .hero-content,
+  .why-content {
     grid-template-columns: 1fr;
     gap: 40px;
   }
 
-  .hero-text h1 {
+  .hero-text h1,
+  .why-text h2 {
     font-size: 40px;
+  }
+
+  .why-image-placeholder {
+    order: -1;
+    min-height: 300px;
   }
 
   .stats {
@@ -510,15 +850,25 @@ const handleNewsletterSubmit = () => {
     gap: 32px;
   }
 
+  .features-horizontal {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 640px) {
-  .hero {
+  .hero,
+  .why-choose-section {
     padding: 40px 0;
+    min-height: auto;
   }
 
   .hero-text h1 {
     font-size: 32px;
+  }
+
+  .why-text h2 {
+    font-size: 32px;
+    margin-bottom: 32px;
   }
 
   .hero-text p {
@@ -545,6 +895,18 @@ const handleNewsletterSubmit = () => {
   .newsletter-form input,
   .newsletter-form button {
     width: 100%;
+  }
+
+  .feature-card {
+    padding: 24px 16px;
+  }
+
+  .feature-icon {
+    font-size: 36px;
+  }
+
+  .features-horizontal {
+    gap: 16px;
   }
 }
 
