@@ -26,7 +26,6 @@
 
       <div v-if="loading" class="loading">Chargement des produits...</div>
       <div v-else-if="error" class="error">{{ error }}</div>
-      <div v-else-if="filterCategory === 'pantalon'" class="loading">Les types de pantalons seront disponibles à la prochaine version.</div>
       <div v-else class="products-grid">
         <ProductCard 
           v-for="product in filteredProducts" 
@@ -51,13 +50,12 @@ const error = ref(null)
 const filterCategory = ref('all')
 
 const filteredProducts = computed(() => {
-  if (filterCategory.value === 'all' || filterCategory.value === 'jupe') {
+  if (filterCategory.value === 'all') {
     return products.value
   }
   
   return products.value.filter(product => {
-    const categoryName = product.categorie?.name?.toLowerCase() || ''
-    return categoryName.includes(filterCategory.value.toLowerCase())
+    return product.type?.toLowerCase() === filterCategory.value.toLowerCase()
   })
 })
 

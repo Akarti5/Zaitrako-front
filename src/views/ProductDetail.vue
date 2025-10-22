@@ -4,6 +4,12 @@
       <div v-if="loading" class="loading">Chargement du produit...</div>
       <div v-else-if="error" class="error">{{ error }}</div>
       <div v-else>
+        <!-- Centered title section -->
+        <div class="title-section">
+          <h1 class="title">{{ product.name?.toUpperCase() }}</h1>
+          <div class="category-name" v-if="categoryName">{{ categoryName }}</div>
+        </div>
+
         <div class="detail-grid">
           <div class="left-col">
             <div class="image-wrapper">
@@ -26,8 +32,6 @@
           </div>
 
           <div class="right-col">
-            <h1 class="title">{{ product.name?.toUpperCase() }}</h1>
-            <div class="category-name" v-if="categoryName">{{ categoryName }}</div>
 
             <form class="measure-form" @submit.prevent="handleSubmit">
               <div class="form-field">
@@ -69,7 +73,7 @@
         </div>
 
         <div class="tutorial-section">
-          <h2 class="tutorial-title">TUTORIEL</h2>
+          <h1 class="tutorial-title">TUTORIEL</h1>
           <!-- <div class="download-row" v-if="videoUrl">
             <a :href="videoUrl" download  class="download-link">📥 Télécharger ce fichier Vidéo</a>
           </div> -->
@@ -219,11 +223,17 @@ const handleSubmit = async () => {
   padding: 60px 0;
 }
 
+.title-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 .detail-grid {
   display: grid;
   grid-template-columns: 2fr 3fr;
   gap: 40px;
   align-items: start;
+  margin-top: 20px;
 }
 
 .left-col .image-wrapper {
@@ -281,17 +291,17 @@ const handleSubmit = async () => {
 .current-price { font-size: 24px; font-weight: 800; color: var(--text-dark); }
 .original-price { font-size: 18px; color: var(--text-gray); text-decoration: line-through; }
 
-.right-col .title {
+.title-section .title {
   font-size: 36px;
   font-weight: 900;
-  color: #1e3a8a;
+  color: navajowhite;
   margin: 0 0 8px 0;
   letter-spacing: 1px;
 }
 
-.category-name {
+.title-section .category-name {
   color: var(--text-gray);
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
 .measure-form {
@@ -316,7 +326,7 @@ const handleSubmit = async () => {
 
 .submit-row { text-align: center; margin-top: 24px; }
 .submit-btn {
-  background: #f59e0b;
+  background: navajowhite;
   color: #fff;
   border: none;
   padding: 14px 28px;
@@ -378,7 +388,7 @@ const handleSubmit = async () => {
 }
 
 .tutorial-section { margin-top: 60px; text-align: center; }
-.tutorial-title { font-size: 30px; color: #1e3a8a; font-weight: 900; margin-bottom: 16px; }
+.tutorial-title { font-size: 40px; color: black; font-weight: 900; margin-bottom: 16px;  font-family: 'Integral CF', sans-serif;}
 .download-row { margin-bottom: 16px; }
 .download-link { color: var(--primary-blue); font-weight: 700; text-decoration: underline; }
 .video-wrapper { max-width: 800px; margin: 0 auto; }

@@ -40,11 +40,34 @@
 
           <div class="nav-actions">
             <div class="search-box">
-              <input type="text" placeholder="Rechercher un produit" v-model="searchQuery" />
+              <input 
+                type="text" 
+                placeholder="Rechercher un produit" 
+                v-model="searchQuery" 
+                @input="handleSearch"
+                @focus="showSearchResults = true"
+                @blur="hideSearchResults"
+              />
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="2"/>
                 <path d="M14 14L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
+              
+              <!-- Search Results Dropdown -->
+              <div v-if="showSearchResults && searchResults.length > 0" class="search-results">
+                <div 
+                  v-for="product in searchResults" 
+                  :key="product._id || product.id"
+                  class="search-result-item"
+                  @click="selectProduct(product)"
+                >
+                  <img :src="product.picturepath || product.image_url" :alt="product.name" class="search-result-image" />
+                  <div class="search-result-info">
+                    <div class="search-result-name">{{ product.name }}</div>
+                    <div class="search-result-price">{{ product.price }} Ar</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <button class="user-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -60,11 +83,53 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { productService } from '../services/api'
 
+const router = useRouter()
 const searchQuery = ref('')
 const dropdownOpen = ref(false)
 const mobileMenuOpen = ref(false)
+const showSearchResults = ref(false)
+const searchResults = ref([])
+const allProducts = ref([])
+
+// Load all products on component mount
+onMounted(async () => {
+  try {
+    allProducts.value = await productService.getAllProducts()
+  } catch (error) {
+    console.error('Error loading products for search:', error)
+  }
+})
+
+const handleSearch = () => {
+  if (searchQuery.value.length < 2) {
+    searchResults.value = []
+    return
+  }
+  
+  const query = searchQuery.value.toLowerCase()
+  searchResults.value = allProducts.value.filter(product => 
+    product.name.toLowerCase().includes(query)
+  ).slice(0, 8) // Limit to 8 results
+}
+
+const selectProduct = (product) => {
+  const slug = product.slug || product._id || product.id
+  router.push(`/produit/${slug}`)
+  searchQuery.value = ''
+  searchResults.value = []
+  showSearchResults.value = false
+}
+
+const hideSearchResults = () => {
+  // Delay hiding to allow click events to fire
+  setTimeout(() => {
+    showSearchResults.value = false
+  }, 200)
+}
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
@@ -282,6 +347,69 @@ header {
   color: var(--text-gray);
 }
 
+/* Search Results Dropdown */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border-gray);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background-color: #f8f9fa;
+}
+
+.search-result-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+  background-color: #f0f0f0;
+}
+
+.search-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-price {
+  font-size: 12px;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
 .user-icon {
   background: none;
   border: none;
@@ -336,6 +464,10 @@ header {
   .search-box input:focus {
     width: 220px;
   }
+
+  .search-results {
+    max-height: 200px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -354,6 +486,27 @@ header {
 
   .search-box input:focus {
     width: 100%;
+  }
+
+  .search-results {
+    max-height: 150px;
+  }
+
+  .search-result-item {
+    padding: 10px 12px;
+  }
+
+  .search-result-image {
+    width: 35px;
+    height: 35px;
+  }
+
+  .search-result-name {
+    font-size: 13px;
+  }
+
+  .search-result-price {
+    font-size: 11px;
   }
 }
 </style>

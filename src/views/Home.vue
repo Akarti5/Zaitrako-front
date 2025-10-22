@@ -325,6 +325,14 @@ const setupAnimations = () => {
     imageClone.style.opacity = '0'
     whyImageTarget.value.appendChild(imageClone)
     
+    // Capture the initial position BEFORE setting up the animation
+    const imageRect = heroImage.value.getBoundingClientRect()
+    const initialImagePosition = {
+      x: imageRect.left,
+      y: imageRect.top + window.scrollY,
+      width: imageRect.width
+    }
+    
     gsap.to(heroImage.value, {
       scrollTrigger: {
         trigger: heroSection.value,
@@ -334,38 +342,42 @@ const setupAnimations = () => {
         onUpdate: (self) => {
           const progress = self.progress
           
-          if (progress > 0 && progress < 0.95) {
-            const heroRect = heroImageContainer.value.getBoundingClientRect()
-            const whyRect = whyImageTarget.value.getBoundingClientRect()
-            
-            const startX = heroRect.left
-            const startY = heroRect.top + window.scrollY
-            const endX = whyRect.left
-            const endY = whyRect.top + window.scrollY
-            
-            const currentX = startX + (endX - startX) * progress
-            const currentY = startY + (endY - startY) * progress
-            
-            gsap.set(heroImage.value, {
-              position: 'fixed',
-              left: currentX + 'px',
-              top: (currentY - window.scrollY) + 'px',
-              zIndex: 1000,
-              width: heroRect.width + 'px',
-              opacity: 1,
-            })
-            
-            gsap.set(imageClone, {
-              opacity: 0
-            })
-          } else if (progress >= 0.95) {
-            // Hide traveling image, show clone
-            gsap.set(heroImage.value, {
-              opacity: 0,
-            })
-            gsap.set(imageClone, {
-              opacity: 1
-            })
+          if (progress > 0) {
+            if (progress < 0.98) {
+              const whyRect = whyImageTarget.value.getBoundingClientRect()
+              
+              // Use the pre-captured initial position
+              const startX = initialImagePosition.x
+              const startY = initialImagePosition.y
+              const startWidth = initialImagePosition.width
+              
+              const endX = whyRect.left
+              const endY = whyRect.top + window.scrollY
+              
+              const currentX = startX + (endX - startX) * progress
+              const currentY = startY + (endY - startY) * progress
+              
+              gsap.set(heroImage.value, {
+                position: 'fixed',
+                left: currentX + 'px',
+                top: (currentY - window.scrollY) + 'px',
+                zIndex: 1000,
+                width: startWidth + 'px',
+                opacity: 1,
+              })
+              
+              gsap.set(imageClone, {
+                opacity: 0
+              })
+            } else {
+              // Hide traveling image and show clone in its natural position
+              gsap.set(heroImage.value, {
+                opacity: 0,
+              })
+              gsap.set(imageClone, {
+                opacity: 1
+              })
+            }
           } else {
             gsap.set(heroImage.value, {
               position: 'relative',
@@ -408,7 +420,7 @@ onMounted(async () => {
   try {
     const data = await productService.getAllProducts()
     products.value = data
-    displayedProducts.value = data.slice(0, 8)
+    displayedProducts.value = data.slice(0, 11)
   } catch (err) {
     error.value = 'Erreur lors du chargement des produits'
     console.error(err)
@@ -521,6 +533,7 @@ const handleNewsletterSubmit = () => {
   position: relative;
   width: 100%;
   max-width: 500px;
+  z-index: 0;
 }
 
 .hero-image img {
